@@ -1,1 +1,37 @@
+import random
 
+def read_file(file_name):
+    message = ""
+    file_handle = open(file_name, 'r')
+    content = file_handle.read()
+    for char in content:
+        message += char
+    return message
+
+def generate_key(message):
+    key = ""
+    for char in message:
+        key += chr(random.randint(0, 255))
+    return key
+
+def encrypt(message, key):
+    encrypted_message = ""
+    counter = 0
+    for char in message:
+        encrypted_message += chr(ord(char) ^ ord(key[counter])) # applying XOR operation
+        counter += 1
+    return encrypted_message
+
+print("Welcome to the One Time Pad encryption system.")
+print("Please input the file name you wish to encrypt: ")
+file_name = input()
+message = read_file(file_name)
+print("The content of the file is: ")
+print(message)
+print("The message after being encrypted using the One Time Pad system is: ")
+key = generate_key(message)
+encrypted_message = encrypt(message, key)
+print(encrypted_message)
+decrypted_message = encrypt(encrypted_message, key)
+print("The message, decrypted using the One Time Pad system, is: ")
+print(decrypted_message)
